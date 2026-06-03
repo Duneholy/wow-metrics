@@ -1,0 +1,1 @@
+ALTER TABLE "User" ADD COLUMN "lossPillSpentRecorded" INTEGER NOT NULL DEFAULT 0;

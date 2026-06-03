@@ -1,0 +1,1 @@
+ALTER TABLE "User" ADD COLUMN "lossPillInstantApplied" BOOLEAN NOT NULL DEFAULT false;

@@ -1,0 +1,261 @@
+/* CRM — BANK-style auction layout */
+
+.crm-section {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.crm-shell .auction-shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-right: 8px;
+}
+
+.crm-shell .energy-bar-title {
+  flex: 1;
+}
+
+.auction-table-crm .auction-row {
+  /* Same column rhythm as bank table (5 equal-weight tracks) */
+  grid-template-columns: 1.55fr 0.95fr 1.15fr 1.15fr 1.2fr;
+  gap: 6px;
+  min-height: 44px;
+  align-items: center;
+  padding: 7px 8px;
+}
+
+.auction-table-crm .auction-head {
+  min-height: 36px;
+  align-items: center;
+}
+
+.crm-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #f0d9a6;
+}
+
+.crm-sphere-pill {
+  font-size: 12px;
+  color: #c8c0b0;
+}
+
+.crm-task-cell {
+  font-size: 12px;
+  color: #d6c8ac;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crm-status-cell {
+  font-size: 12px;
+  text-transform: lowercase;
+  color: #b8a88a;
+}
+
+.crm-status-cell--todo {
+  color: #7ee8a0;
+}
+
+.crm-rating-cell {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffd100;
+}
+
+.crm-empty {
+  padding: 24px 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.crm-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 16px;
+}
+
+.crm-editor-grid--readonly .field-label input,
+.crm-editor-grid--readonly .field-label select,
+.crm-editor-grid--readonly .field-label textarea {
+  display: none;
+}
+
+.crm-field-caption {
+  display: block;
+  color: var(--accent-yellow);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.crm-field-readonly {
+  display: block;
+  margin-top: 4px;
+  padding: 6px 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #e8dcc8;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.crm-editor-grid .field-label--wide {
+  grid-column: 1 / -1;
+}
+
+.crm-editor-rating {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #c8a838;
+  margin: 0 0 12px;
+}
+
+.crm-detail-panel {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.crm-detail-actions,
+.crm-modal-actions {
+  margin-top: 16px;
+  gap: 10px;
+}
+
+.crm-form-error {
+  margin: 0 0 10px;
+  color: #ff6b6b;
+  font-size: 13px;
+}
+
+/* +30% vs previous 640px → 832px */
+.crm-contact-modal {
+  width: min(832px, 96vw);
+  max-height: none;
+  overflow: visible;
+  padding: 20px 28px 22px;
+  box-sizing: border-box;
+}
+
+.crm-contact-modal h3 {
+  margin: 0 0 14px;
+}
+
+.crm-contact-modal .crm-editor-grid {
+  margin-top: 4px;
+}
+
+.crm-editor-grid .field-label input,
+.crm-editor-grid .field-label select,
+.crm-editor-grid .field-label textarea,
+.crm-contact-modal .field-label input,
+.crm-contact-modal .field-label select,
+.crm-contact-modal .field-label textarea {
+  margin-top: 4px;
+  background: #1b1615;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.crm-editor-grid .field-label textarea,
+.crm-contact-modal .field-label textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.crm-editor-grid .field-label input:focus,
+.crm-editor-grid .field-label select:focus,
+.crm-editor-grid .field-label textarea:focus,
+.crm-contact-modal .field-label input:focus,
+.crm-contact-modal .field-label select:focus,
+.crm-contact-modal .field-label textarea:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(126, 200, 227, 0.2);
+}
+
+.crm-editor-grid:not(.crm-editor-grid--readonly) input[type="date"]:not(:disabled),
+.crm-contact-modal input[type="date"]:not(:disabled) {
+  cursor: url("/textures/Cast.PNG") 8 8, pointer;
+}
+
+.crm-sphere-modal {
+  width: min(400px, 92vw);
+  overflow: visible;
+  padding: 18px 22px 20px;
+  box-sizing: border-box;
+}
+
+.crm-sphere-modal h3 {
+  margin: 0 0 12px;
+}
+
+.crm-sphere-modal .field-label input {
+  margin-top: 4px;
+  background: #1b1615;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.bank-asset-editor .field-label input,
+.bank-asset-editor .field-label select,
+.bank-asset-editor .field-label textarea {
+  margin-top: 4px;
+  width: 100%;
+  background: #1b1615;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.bank-asset-editor .field-label input:focus,
+.bank-asset-editor .field-label select:focus,
+.bank-asset-editor .field-label textarea:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(126, 200, 227, 0.2);
+}
+
+.bank-asset-editor .actions {
+  margin-top: 12px;
+  gap: 10px;
+}
+
+.crm-sphere-modal-actions {
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .crm-editor-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .crm-contact-modal {
+    width: min(96vw, 832px);
+  }
+}

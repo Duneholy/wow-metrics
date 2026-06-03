@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                      String            @id @default(cuid())
+  login                   String            @unique
+  password                String
+  level                   Int               @default(1)
+  xp                      Int               @default(0)
+  energy                  Int               @default(100)
+  energyWeekKey           String?
+  energyAtWeekStart       Int               @default(100)
+  energySpentWeek         Int               @default(0)
+  energyGainedWeek        Int               @default(0)
+  energyLastProcessedDate DateTime?
+  bonusNoPhoneUsed        Boolean           @default(false)
+  bonusNoPhoneEnergyApplied Int             @default(0)
+  bonusHeartUsed          Boolean           @default(false)
+  bonusHeartEnergyApplied Int               @default(0)
+  bonusRecycleActive        Boolean           @default(false)
+  bonusRecycleEnergyApplied Int               @default(0)
+  lossNoPhoneUsed           Boolean           @default(false)
+  lossNoPhoneEnergyApplied  Int               @default(0)
+  lossHeartUsed             Boolean           @default(false)
+  lossHeartEnergyApplied    Int               @default(0)
+  lossPillActive            Boolean           @default(false)
+  lossPillEnergyApplied     Int               @default(0)
+  lossPillInstantApplied    Boolean           @default(false)
+  lossPillSpentRecorded     Int               @default(0)
+
+  // Settings
+  coingeckoApiKey           String?
+  dailyEnergyLoss           Int               @default(10)
+  assetColorGreenThreshold  Float             @default(50000)
+  assetColorBlueThreshold   Float             @default(150000)
+  assetColorPurpleThreshold Float             @default(300000)
+  epicTaskWarningEnergy     Int               @default(60)
+  hardTaskWarningEnergy     Int               @default(45)
+  mediumTaskWarningEnergy   Int               @default(25)
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  goals                   Goal[]
+  tasks                   Task[]
+  contacts                Contact[]
+  assets                  Asset[]
+  exerciseTypes           ExerciseType[]
+  energyWeekSlots         EnergyWeekSlot[]
+}
+
+model ExerciseType {
+  id          String           @id @default(cuid())
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  energyTier  Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  weekSlots   EnergyWeekSlot[]
+}
+
+model EnergyWeekSlot {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exerciseTypeId String
+  exerciseType   ExerciseType @relation(fields: [exerciseTypeId], references: [id], onDelete: Cascade)
+  weekKey        String
+  sortOrder      Int
+  completed      Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([userId, weekKey])
+}
+
+model Goal {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title          String
+  description    String?
+  definitionDone String?
+  resources      String?
+  deadline       DateTime?
+  category       String
+  priority       String       @default("DASH")
+  iconName       String?
+  isCompleted    Boolean      @default(false)
+  completedAt    DateTime?
+  completionEnergyGain Int?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  tasks          Task[]
+}
+
+model Task {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category       String
+  goalId         String?
+  goal           Goal?          @relation(fields: [goalId], references: [id], onDelete: SetNull)
+  goalSortOrder  Int            @default(0)
+  title         String
+  comment       String?
+  definitionDone String?
+  deadline      DateTime?
+  difficulty    String
+  progress      Int            @default(0)
+  inFocus       Boolean        @default(false)
+  /** 0..6 position in Weekly Focus; null when not in focus */
+  focusSlot     Int?
+  isCompleted   Boolean        @default(false)
+  xpReward      Int
+  subtasks      Subtask[]
+  contacts      Contact[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Subtask {
+  id          String   @id @default(cuid())
+  taskId       String
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  title       String
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Contact {
+  id            String        @id @default(cuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  lastName      String        @default("")
+  firstName     String        @default("")
+  sphere        String
+  status        String        @default("IDLE")
+  birthdayMonth Int?
+  birthdayDay   Int?
+  birthday      DateTime?
+  comment       String?
+  lastTouchDate DateTime?
+  touchesCount  Int           @default(0)
+  taskId        String?
+  task          Task?         @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Asset {
+  id                 String                @id @default(cuid())
+  userId             String
+  user               User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name               String
+  category           String
+  quantity           Float                 @default(1)
+  ticker             String?
+  coingeckoId        String?
+  manualValueRub     Float?
+  acquisitionDate    DateTime?
+  depositRateAnnual  Float?
+  depositCloseDate   DateTime?
+  taxProfitPercent   Float?
+  note               String?
+  iconName           String?
+  purchaseCostRub    Float?
+  expectedPriceRub   Float?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  cryptoTransactions CryptoTransaction[]
+}
+
+model CryptoTransaction {
+  id          String                @id @default(cuid())
+  assetId     String
+  asset       Asset                 @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  type        String
+  executedAt  DateTime
+  quantity    Float
+  totalRub    Float
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+
+  @@index([assetId])
+}
+

@@ -1,0 +1,797 @@
+/* My Goals — Profile tab (BANK auction layout) */
+
+
+
+.my-goals-section {
+
+  padding: 0;
+
+  background: transparent;
+
+  border: 0;
+
+  box-shadow: none;
+
+}
+
+
+
+.my-goals-page-air {
+
+  padding: 0;
+
+}
+
+
+
+.my-goals-shell .auction-shell-header {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding-right: 8px;
+
+}
+
+
+
+.my-goals-shell .energy-bar-title {
+
+  flex: 1;
+
+}
+
+
+
+.auction-table-goals .auction-row {
+
+  grid-template-columns: 56px minmax(180px, 2.2fr) minmax(140px, 1.4fr) minmax(100px, 0.9fr) 72px;
+
+  min-height: 80px;
+
+  align-items: stretch;
+
+  padding: 10px 8px;
+
+}
+
+
+
+.auction-table-goals .auction-head {
+
+  min-height: 36px;
+
+  align-items: center;
+
+}
+
+
+.my-goal-next-task {
+
+  display: flex;
+
+  align-items: center;
+
+  font-size: 13px;
+
+}
+
+
+.my-goal-next-task-title {
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+}
+
+
+
+.my-goal-icon-wrap {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+
+.my-goal-icon {
+
+  width: 44px;
+
+  height: 44px;
+
+  border-radius: 4px;
+
+  border: 1px solid rgba(255, 209, 0, 0.35);
+
+  object-fit: cover;
+
+  background: #111;
+
+  box-shadow: 0 0 8px rgba(255, 209, 0, 0.08);
+
+}
+
+
+
+.my-goal-main {
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  min-width: 0;
+
+  text-align: left;
+
+}
+
+
+
+.my-goal-title {
+
+  margin: 0;
+
+  font-family: var(--font-display);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: #f0d9a6;
+
+  line-height: 1.2;
+
+}
+
+
+
+.my-goal-description {
+
+  margin: 0;
+
+  font-family: var(--font-mono);
+
+  font-size: 12px;
+
+  line-height: 1.45;
+
+  color: #c8c0b0;
+
+  display: -webkit-box;
+
+  -webkit-line-clamp: 3;
+
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+}
+
+
+
+.my-goal-tasks-flow,
+
+.my-goal-deadline {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  font-family: var(--font-mono);
+
+  font-size: 12px;
+
+  color: #e8e0d0;
+
+  line-height: 1.35;
+
+  text-align: left;
+
+  min-width: 0;
+
+}
+
+
+
+.my-goal-flow-arrow {
+
+  color: #8a8070;
+
+  font-weight: 400;
+
+}
+
+
+
+.my-goal-task-diff-name {
+
+  font-weight: 600;
+
+}
+
+
+
+.my-goal-deadline {
+
+  color: #d6c8ac;
+
+}
+
+
+
+.my-goal-energy {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 4px;
+
+}
+
+
+
+/* Energy reward hex — styled like Energy Bar gauge */
+
+.my-goal-energy-hex {
+
+  position: relative;
+
+  width: 52px;
+
+  height: 58px;
+
+  filter: drop-shadow(0 2px 10px var(--goal-energy-glow, rgba(255, 209, 0, 0.2)));
+
+}
+
+
+
+.my-goal-energy-hex-fill {
+
+  position: absolute;
+
+  inset: 0;
+
+  clip-path: polygon(50% 0%, 100% 18%, 100% 72%, 50% 100%, 0% 72%, 0% 18%);
+
+  background: conic-gradient(
+
+    from -90deg,
+
+    var(--goal-energy-fill-light, #e8dc9a) 0deg,
+
+    var(--goal-energy-fill-main, #ffd100) calc(var(--goal-energy-deg, 36deg) * 0.55),
+
+    var(--goal-energy-fill-main, #ffd100) var(--goal-energy-deg, 36deg),
+
+    #1c1714 calc(var(--goal-energy-deg, 36deg) + 1deg),
+
+    #262018 360deg
+
+  );
+
+  box-shadow:
+
+    0 0 0 1px var(--goal-energy-ring, rgba(255, 209, 0, 0.45)),
+
+    0 0 12px var(--goal-energy-glow, rgba(255, 209, 0, 0.15)),
+
+    inset 0 0 16px rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+.my-goal-energy-hex-inner {
+
+  position: absolute;
+
+  inset: 5px;
+
+  clip-path: polygon(50% 2%, 96% 20%, 96% 70%, 50% 96%, 4% 70%, 4% 20%);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: radial-gradient(circle at 38% 32%, #2e2824 0%, #14110f 62%, #0c0a09 100%);
+
+  box-shadow:
+
+    inset 0 2px 8px rgba(0, 0, 0, 0.65),
+
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+
+}
+
+
+
+.my-goal-energy-value {
+
+  font-family: var(--font-mono);
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: var(--accent-yellow);
+
+  line-height: 1;
+
+  text-shadow: 0 0 8px var(--goal-energy-glow, rgba(255, 209, 0, 0.35));
+
+}
+
+
+
+.my-goal-energy-diff {
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+
+  color: #a89a80;
+
+}
+
+
+
+.my-goals-empty {
+
+  padding: 24px 12px;
+
+  font-family: var(--font-mono);
+
+  color: var(--text-muted);
+
+  text-align: center;
+
+}
+
+
+
+.my-goal-editor .inline-form {
+
+  margin-bottom: 10px;
+
+}
+
+.my-goal-fields-grid .field-label--wide,
+.my-goal-readonly-blocks .field-label--wide {
+  grid-column: 1 / -1;
+}
+
+.my-goal-field-readonly {
+  display: block;
+  margin-top: 4px;
+  padding: 6px 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: #e8dcc8;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.my-goal-editor--readonly .my-goal-fields-grid,
+.my-goal-readonly-blocks {
+  display: grid;
+  gap: 0;
+}
+
+.my-goal-readonly-blocks {
+  margin-bottom: 16px;
+}
+
+.my-goal-icon-picker-row--readonly {
+  margin-bottom: 12px;
+}
+
+.my-goal-icon-picker-row--readonly .asset-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 209, 0, 0.35);
+}
+
+.my-goal-editor input.my-goal-field-input,
+.my-goal-editor select.my-goal-field-input,
+.my-goal-editor textarea.my-goal-field-input {
+  width: 100%;
+  background: #1b1615;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.my-goal-editor textarea.my-goal-field-input {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.my-goal-editor input.my-goal-field-input:focus,
+.my-goal-editor select.my-goal-field-input:focus,
+.my-goal-editor textarea.my-goal-field-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(126, 200, 227, 0.2);
+}
+
+.my-goal-assign-row select.my-goal-field-input {
+  flex: 1;
+}
+
+.my-goal-task-item--readonly {
+  cursor: url("/textures/Point.PNG") 2 2, default;
+}
+
+
+
+.my-goal-editor .my-goal-text-block {
+
+  margin-bottom: 20px;
+
+}
+
+
+
+.my-goal-editor .my-goal-text-block--resources {
+
+  margin-bottom: 24px;
+
+}
+
+
+
+.my-goal-editor .my-goal-task-sequence-title {
+
+  font-size: 14px;
+
+  margin: 16px 0 8px;
+
+}
+
+.my-goal-editor .my-goal-field-caption {
+  display: block;
+  color: var(--accent-yellow);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.my-goal-icon-picker-row {
+
+  margin-bottom: 12px;
+
+}
+
+
+
+.my-goal-task-list {
+
+  list-style: none;
+
+  margin: 0 0 12px;
+
+  padding: 0;
+
+  display: grid;
+
+  gap: 6px;
+
+}
+
+
+
+.my-goal-task-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 10px;
+
+  background: rgba(0, 0, 0, 0.25);
+
+  border: 1px solid #2a2a2a;
+
+  border-radius: 4px;
+
+}
+
+.my-goal-editor:not(.my-goal-editor--readonly) .my-goal-task-item {
+  cursor: url("/textures/OPENHAND.PNG") 32 40, grab;
+}
+
+.my-goal-editor:not(.my-goal-editor--readonly) .my-goal-task-item:active {
+  cursor: url("/textures/openhandglow.PNG") 32 40, grabbing;
+}
+
+
+
+.my-goal-task-item--completed {
+
+  border-color: #ffd100;
+
+  box-shadow:
+
+    inset 0 0 0 1px rgba(255, 209, 0, 0.35),
+
+    0 0 8px rgba(255, 209, 0, 0.12);
+
+  opacity: 0.55;
+
+}
+
+
+
+.my-goal-task-item--drag-over {
+
+  border-color: rgba(255, 209, 0, 0.5);
+
+  box-shadow: inset 0 0 0 1px rgba(255, 209, 0, 0.25);
+
+}
+
+
+
+.my-goal-task-item--drag-source {
+
+  opacity: 0.45;
+
+}
+
+
+
+.my-goal-task-grip {
+
+  color: #666;
+
+  font-size: 14px;
+
+  user-select: none;
+
+  flex-shrink: 0;
+
+}
+
+
+
+.my-goal-task-title {
+
+  flex: 1;
+
+  font-family: var(--font-mono);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  min-width: 0;
+
+}
+
+
+
+.my-goal-task-meta {
+
+  font-size: 11px;
+
+  color: #888;
+
+  flex-shrink: 0;
+
+}
+
+
+
+.my-goal-assign-row {
+
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 8px;
+
+}
+
+
+
+.my-goal-assign-row select {
+
+  flex: 1;
+
+}
+
+
+
+.my-goal-meta-row {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 16px;
+
+  font-family: var(--font-mono);
+
+  font-size: 12px;
+
+  color: #b8b0a0;
+
+}
+
+
+
+.my-goal-meta-row strong {
+
+  color: var(--accent-yellow);
+
+}
+
+
+
+.my-goal-actions {
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+}
+
+
+
+.my-goal-complete-btn {
+
+  margin-right: auto;
+
+}
+
+
+
+.my-goal-complete-btn:disabled,
+.my-goal-complete-btn:disabled:hover {
+  opacity: 0.45;
+  cursor: url("/textures/UnableCast.PNG") 2 2, not-allowed !important;
+}
+
+
+
+/* Completed goal row — gold achievement-style outline */
+
+.my-goal-row-wrap--completed > .auction-row.auction-row-button {
+
+  background: linear-gradient(180deg, rgba(255, 209, 0, 0.04) 0%, rgba(255, 209, 0, 0.02) 100%);
+
+  box-shadow:
+
+    inset 0 0 0 1px rgba(255, 209, 0, 0.55),
+
+    inset 0 0 12px rgba(255, 209, 0, 0.06),
+
+    0 0 0 1px rgba(255, 209, 0, 0.18);
+
+}
+
+.my-goal-row-wrap--completed > .auction-row.auction-row-button:hover {
+
+  background: linear-gradient(180deg, rgba(255, 209, 0, 0.07) 0%, rgba(255, 209, 0, 0.04) 100%) !important;
+
+}
+
+
+
+.my-goal-row-wrap--completed .my-goal-title {
+
+  color: #c8b870;
+
+  opacity: 0.72;
+
+}
+
+.my-goal-row-wrap--completed .my-goal-description {
+
+  opacity: 0.55;
+
+}
+
+.my-goal-row-wrap--completed .my-goal-icon {
+
+  opacity: 0.65;
+
+  border-color: rgba(255, 209, 0, 0.55);
+
+}
+
+
+
+.my-goal-completed-label {
+
+  margin: 0;
+
+  font-family: var(--font-mono);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+
+  text-transform: uppercase;
+
+  color: #c8a838;
+
+}
+
+.my-goal-completed-date {
+
+  font-size: 10px;
+
+  font-family: var(--font-mono);
+
+  color: #c8a838;
+
+  letter-spacing: 0.2px;
+
+}
+
+
+
+.my-goal-undo-btn {
+
+  margin-right: auto;
+
+}
+
+.my-goal-undo-btn:disabled {
+
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+}
+
+

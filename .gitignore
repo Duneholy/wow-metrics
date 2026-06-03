@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+.env.testonly
+
+# SQLite database (stored next to prisma schema)
+backend/prisma/*.db
+backend/prisma/*.db-journal
+*.db
+*.db-journal
+
+# Build output
+dist/
+backend/dist/
+frontend/dist/
+
+# Logs & debug
+*.log
+backend/backend_log.txt
+frontend/frontend_log.txt
+frontend/frontend_debug.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Windows shortcuts (machine-specific)
+*.lnk
+Launch wow_metrics.lnk
+install.log

@@ -1,0 +1,230 @@
+/**
+ * Compact layout for viewports narrower than the reference (1905 x 925).
+ * At min-width 1905px nothing here applies — pixel-perfect reference unchanged.
+ */
+@media (max-width: 1904px) {
+  :root {
+    --wm-ref-w: 1905;
+    --wm-scale: calc(100vw / var(--wm-ref-w));
+  }
+
+  /* --- Quest Log: Weekly Focus (7 cards in one row) --- */
+  .quest-log-focus {
+    overflow-x: hidden;
+  }
+
+  .quest-log-focus .weekly-focus-title {
+    margin-bottom: calc(30px * var(--wm-scale));
+    font-size: calc(22px * var(--wm-scale));
+    letter-spacing: calc(2px * var(--wm-scale));
+  }
+
+  .focus-tasks-container {
+    flex-wrap: nowrap;
+    row-gap: calc(12px * var(--wm-scale));
+    justify-content: space-between;
+  }
+
+  .focus-task-card {
+    flex: 0 0 calc(220px * var(--wm-scale));
+    width: calc(220px * var(--wm-scale));
+    height: calc(120px * var(--wm-scale));
+    padding: calc(10px * var(--wm-scale)) calc(12px * var(--wm-scale));
+  }
+
+  .focus-task-drag-surface {
+    top: calc(10px * var(--wm-scale));
+    left: calc(10px * var(--wm-scale));
+    right: calc(10px * var(--wm-scale));
+    bottom: calc(10px * var(--wm-scale));
+  }
+
+  .focus-task-title {
+    font-size: calc(16px * var(--wm-scale));
+  }
+
+  .focus-actions {
+    gap: calc(8px * var(--wm-scale));
+  }
+
+  .focus-actions .complete-btn,
+  .complete-btn {
+    height: calc(20px * var(--wm-scale));
+    padding: 0 calc(8px * var(--wm-scale)) !important;
+    font-size: calc(11px * var(--wm-scale));
+  }
+
+  .focus-remove-icon,
+  .focus-random-icon {
+    width: calc(24px * var(--wm-scale));
+    height: calc(24px * var(--wm-scale));
+    top: calc(4px * var(--wm-scale));
+    right: calc(4px * var(--wm-scale));
+  }
+
+  .focus-random-icon img {
+    width: calc(24px * var(--wm-scale));
+    height: calc(24px * var(--wm-scale));
+  }
+
+  .focus-empty-plus-btn {
+    width: calc(32px * var(--wm-scale));
+    height: calc(32px * var(--wm-scale));
+  }
+
+  .focus-empty-plus-icon {
+    width: calc(28px * var(--wm-scale));
+    height: calc(28px * var(--wm-scale));
+  }
+
+  /* --- Energy Bar: keep single-row grid, scale all columns --- */
+  .energy-bar-panel {
+    overflow-x: hidden;
+  }
+
+  .energy-bar-body {
+    grid-template-columns:
+      calc(180px * var(--wm-scale))
+      calc(400px * var(--wm-scale))
+      auto
+      minmax(0, 1fr);
+    gap: calc(12px * var(--wm-scale)) calc(16px * var(--wm-scale));
+    min-height: calc(152px * var(--wm-scale));
+  }
+
+  .energy-bar-gauge-col {
+    min-height: calc(152px * var(--wm-scale));
+  }
+
+  .energy-pie-wrap {
+    max-width: calc(180px * var(--wm-scale));
+  }
+
+  .energy-pie-value {
+    font-size: calc(22px * var(--wm-scale));
+  }
+
+  .energy-bar-stats-col {
+    min-height: calc(152px * var(--wm-scale));
+    max-width: calc(400px * var(--wm-scale));
+    width: calc(400px * var(--wm-scale));
+    padding-bottom: calc(10px * var(--wm-scale));
+  }
+
+  .energy-bar-stats-top {
+    padding-top: calc(8px * var(--wm-scale));
+  }
+
+  .energy-bar-stats-footer {
+    gap: calc(6px * var(--wm-scale));
+  }
+
+  .energy-stat-line {
+    font-size: calc(13px * var(--wm-scale));
+  }
+
+  .energy-stat-hint {
+    margin-top: calc(6px * var(--wm-scale));
+    font-size: calc(11px * var(--wm-scale));
+  }
+
+  .energy-stat-sub {
+    font-size: calc(12px * var(--wm-scale));
+  }
+
+  .energy-bar-modifiers-col {
+    gap: calc(12px * var(--wm-scale));
+    margin-left: calc(60px * var(--wm-scale));
+  }
+
+  .energy-modifier-heading {
+    margin-bottom: calc(8px * var(--wm-scale));
+    font-size: calc(14px * var(--wm-scale));
+  }
+
+  .energy-modifier-btns {
+    gap: calc(8px * var(--wm-scale));
+  }
+
+  .energy-modifier-btn {
+    width: calc(40px * var(--wm-scale));
+    height: calc(40px * var(--wm-scale));
+  }
+
+  .energy-modifier-icon {
+    width: calc(28px * var(--wm-scale));
+    height: calc(28px * var(--wm-scale));
+  }
+
+  .energy-toggle-error {
+    margin-bottom: calc(6px * var(--wm-scale));
+    font-size: calc(11px * var(--wm-scale));
+    max-width: calc(140px * var(--wm-scale));
+  }
+
+  .energy-bar-exercises-col {
+    min-height: calc(152px * var(--wm-scale));
+    margin-left: calc(70px * var(--wm-scale));
+    overflow: hidden;
+    max-width: calc((152px * 6 + 8px * 5) * var(--wm-scale));
+  }
+
+  .energy-exercise-frame {
+    min-height: calc(152px * var(--wm-scale));
+    height: calc(152px * var(--wm-scale));
+  }
+
+  .energy-slot-row {
+    flex-wrap: nowrap;
+    gap: calc(8px * var(--wm-scale));
+    height: calc(152px * var(--wm-scale));
+    min-height: calc(152px * var(--wm-scale));
+  }
+
+  .energy-slot-card,
+  .energy-slot-add {
+    width: calc(152px * var(--wm-scale));
+    height: calc(152px * var(--wm-scale));
+    flex: 0 0 calc(152px * var(--wm-scale));
+    border-radius: calc(10px * var(--wm-scale));
+  }
+
+  .energy-slot-card {
+    padding: calc(8px * var(--wm-scale)) calc(8px * var(--wm-scale)) calc(10px * var(--wm-scale));
+  }
+
+  .energy-slot-drag-surface {
+    top: calc(10px * var(--wm-scale));
+    left: calc(10px * var(--wm-scale));
+    right: calc(10px * var(--wm-scale));
+    bottom: calc(52px * var(--wm-scale));
+  }
+
+  .energy-slot-content {
+    padding-right: calc(16px * var(--wm-scale));
+  }
+
+  .energy-slot-title {
+    margin-bottom: calc(4px * var(--wm-scale));
+    font-size: calc(18px * var(--wm-scale));
+  }
+
+  .energy-slot-desc {
+    font-size: calc(10px * var(--wm-scale));
+  }
+
+  .energy-slot-energy-bar {
+    min-height: calc(32px * var(--wm-scale));
+    padding: calc(2px * var(--wm-scale));
+    border-radius: 0 0 calc(8px * var(--wm-scale)) calc(8px * var(--wm-scale));
+  }
+
+  .energy-slot-bolts {
+    font-size: calc(12px * var(--wm-scale));
+    letter-spacing: calc(1px * var(--wm-scale));
+  }
+
+  .energy-slot-add-glow {
+    max-width: calc(48px * var(--wm-scale));
+  }
+}
