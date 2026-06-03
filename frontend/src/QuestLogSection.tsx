@@ -10,7 +10,7 @@ import {
 import { QuestLogDropdown } from "./QuestLogDropdown";
 import { QuestLogGoalCard } from "./QuestLogGoalCard";
 import { WOWHEAD_ICON_BASE } from "./goalUtils";
-import { taskFromServerResponse, weeklyFocusEnergyWarning, GOAL_CATEGORY_LABELS } from "./goalUtils";
+import { taskFromServerResponse, weeklyFocusEnergyWarning, GOAL_CATEGORY_LABELS, taskProgressFromSubtasks } from "./goalUtils";
 
 type RequestFn = <T>(path: string, options?: RequestInit) => Promise<T>;
 
@@ -30,6 +30,7 @@ export function QuestLogSection({
   const [weeklyFocusPickOpen, setWeeklyFocusPickOpen] = useState(false);
   const [weeklyFocusPickTaskId, setWeeklyFocusPickTaskId] = useState("");
   const [weeklyFocusPickSlot, setWeeklyFocusPickSlot] = useState<number | null>(null);
+  const [subtasksRequiredModalOpen, setSubtasksRequiredModalOpen] = useState(false);
   const [focusDraggingTaskId, setFocusDraggingTaskId] = useState<string | null>(null);
   const [focusDragOverSlot, setFocusDragOverSlot] = useState<number | null>(null);
   const [questLogEditTitle, setQuestLogEditTitle] = useState("");
@@ -234,31 +235,64 @@ export function QuestLogSection({
     }
   }
 
+  function taskHasIncompleteSubtasks(task: Task): boolean {
+    const subs = task.subtasks ?? [];
+    return subs.length > 0 && subs.some((s) => !s.isCompleted);
+  }
+
   async function completeTask(taskId: string) {
-    // Optimistic update — flip isCompleted instantly in local state
+    const task = dashboard?.tasks.find((t: Task) => t.id === taskId);
+    if (!task) return;
+
+    if (!task.isCompleted && taskHasIncompleteSubtasks(task)) {
+      setSubtasksRequiredModalOpen(true);
+      return;
+    }
+
+    const nextCompleted = !task.isCompleted;
+    const nextProgress = nextCompleted
+      ? 100
+      : (task.subtasks?.length ?? 0) > 0
+        ? taskProgressFromSubtasks(task.subtasks ?? [])
+        : 0;
+
+    const toggle = (t: Task) =>
+      t.id === taskId ? { ...t, isCompleted: nextCompleted, progress: nextProgress } : t;
+
     setDashboard((prev: any) => {
       if (!prev) return prev;
-      const toggle = (t: typeof prev.tasks[0]) =>
-        t.id === taskId ? { ...t, isCompleted: !t.isCompleted, progress: !t.isCompleted ? 100 : 0 } : t;
       return {
         ...prev,
         tasks: prev.tasks.map(toggle),
+        focusTasks: (prev.focusTasks ?? []).map(toggle),
       };
     });
     try {
       await request(`/tasks/${taskId}/complete`, { method: "PATCH" });
-      // Silent background refresh to sync XP / level changes
       const data = await request<DashboardPayload>("/dashboard");
       setDashboard(data);
     } catch (e) {
-      // Revert on error
       setDashboard((prev: any) => {
         if (!prev) return prev;
-        const revert = (t: typeof prev.tasks[0]) =>
-          t.id === taskId ? { ...t, isCompleted: !t.isCompleted, progress: !t.isCompleted ? 100 : 0 } : t;
-        return { ...prev, tasks: prev.tasks.map(revert) };
+        const revertProgress = task.isCompleted
+          ? 100
+          : (task.subtasks?.length ?? 0) > 0
+            ? taskProgressFromSubtasks(task.subtasks ?? [])
+            : 0;
+        const revert = (t: Task) =>
+          t.id === taskId ? { ...t, isCompleted: task.isCompleted, progress: revertProgress } : t;
+        return {
+          ...prev,
+          tasks: prev.tasks.map(revert),
+          focusTasks: (prev.focusTasks ?? []).map(revert),
+        };
       });
-      setError(e instanceof Error ? e.message : "Failed to update task");
+      const msg = e instanceof Error ? e.message : "";
+      if (msg.toLowerCase().includes("subtask")) {
+        setSubtasksRequiredModalOpen(true);
+      } else {
+        setError(msg || "Failed to update task");
+      }
     }
   }
 
@@ -370,6 +404,9 @@ export function QuestLogSection({
   }
 
   async function completeQuestLogSubtask(subtaskId: string) {
+    const parent = dashboard?.tasks.find((t) => (t.subtasks ?? []).some((s) => s.id === subtaskId));
+    if (parent?.isCompleted) return;
+
     await request(`/subtasks/${subtaskId}/complete`, { method: "PATCH" });
     const data = await request<DashboardPayload>("/dashboard");
     setDashboard(data);
@@ -394,7 +431,7 @@ export function QuestLogSection({
           return dashboard?.goals.find((x: Goal) => x.id === gid) ?? null;
         })();
 
-        const focusList = dashboard?.tasks.filter((t: Task) => t.inFocus && !t.isCompleted).sort((a: any, b: any) => (a.focusSlot ?? 99) - (b.focusSlot ?? 99)) ?? [];
+        const focusList = dashboard?.tasks.filter((t: Task) => t.inFocus).sort((a: any, b: any) => (a.focusSlot ?? 99) - (b.focusSlot ?? 99)) ?? [];
         const slotMap = new Map<number, Task>();
         const legacyFocus: Task[] = [];
         for (const t of focusList) {
@@ -831,10 +868,11 @@ export function QuestLogSection({
                           })
                           .map((st) => (
                             <li key={st.id}>
-                              <label className="quest-subtask-check">
+                              <label className={`quest-subtask-check${selectedTask.isCompleted ? " quest-subtask-check--locked" : ""}`}>
                                 <input
                                   type="checkbox"
                                   checked={st.isCompleted}
+                                  disabled={selectedTask.isCompleted}
                                   onChange={() => completeQuestLogSubtask(st.id)}
                                 />
                               </label>
@@ -1055,6 +1093,32 @@ export function QuestLogSection({
             <div className="actions" style={{ marginTop: '16px' }}>
               <button type="button" onClick={() => { setTaskModalOpen(false); setTaskModalForm(newTaskModalDefaults("PERSONAL")); }}>Cancel</button>
               <button type="button" onClick={() => void submitTaskModal()}>Save</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {subtasksRequiredModalOpen && (
+        <div
+          className="modal-backdrop modal-above-stack modal-confirm-dialog"
+          onClick={() => setSubtasksRequiredModalOpen(false)}
+        >
+          <div
+            className="panel modal-card"
+            style={{ maxWidth: 300, textAlign: "center" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="blizz-corners" aria-hidden="true">
+              <span /><span /><span /><span />
+            </div>
+            <h3 style={{ marginBottom: "16px" }}>Notice</h3>
+            <p style={{ marginBottom: "24px" }}>
+              Complete all subtasks before marking this task as complete.
+            </p>
+            <div className="actions" style={{ display: "flex", justifyContent: "center", gap: "12px" }}>
+              <button type="button" onClick={() => setSubtasksRequiredModalOpen(false)}>
+                Confirm
+              </button>
             </div>
           </div>
         </div>

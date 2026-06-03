@@ -301,6 +301,13 @@ export function goalTasksList(goal: Goal, allTasks: Task[]): Task[] {
 
 
 
+/** Progress % from completed subtasks (0 when there are no subtasks). */
+export function taskProgressFromSubtasks(subtasks: Pick<Subtask, "isCompleted">[]): number {
+  if (subtasks.length === 0) return 0;
+  const done = subtasks.filter((s) => s.isCompleted).length;
+  return Math.floor((done / subtasks.length) * 100);
+}
+
 export function firstGoalTask(goal: Goal, allTasks: Task[]): Task | null {
 
   const tasks = goalTasksList(goal, allTasks);

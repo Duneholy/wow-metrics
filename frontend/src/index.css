@@ -3281,6 +3281,17 @@ button.quest-log-dropdown-trigger.quest-difficulty-select {
   margin: 0;
 }
 
+.quest-subtask-check--locked,
+.quest-subtask-check--locked:hover {
+  filter: none;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.quest-subtask-check--locked input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
 .subtask-delete-btn {
   background: transparent !important;
   border: none !important;

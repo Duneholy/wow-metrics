@@ -21,6 +21,12 @@ const difficultyXp: Record<TaskDifficulty, number> = {
   EPIC: 1200,
 };
 
+function progressFromSubtasks(subtasks: { isCompleted: boolean }[]): number {
+  if (subtasks.length === 0) return 0;
+  const done = subtasks.filter((s) => s.isCompleted).length;
+  return Math.floor((done / subtasks.length) * 100);
+}
+
 taskRoutes.post("/tasks", async (req, res) => {
   const parsed = taskSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -188,6 +194,11 @@ taskRoutes.patch("/subtasks/:id/complete", async (req, res) => {
     return;
   }
   
+  if (existing.task.isCompleted && existing.isCompleted) {
+    res.status(400).json({ error: "Mark the task as not done before changing subtasks" });
+    return;
+  }
+
   const isCompleting = !existing.isCompleted;
   const total = existing.task.subtasks.length;
   const completedNow = existing.task.subtasks.filter(s => s.isCompleted).length + (isCompleting ? 1 : -1);
@@ -384,10 +395,16 @@ taskRoutes.patch("/tasks/:taskId/complete", async (req, res) => {
     nextLevel += 1;
   }
 
+  const progressOnUncomplete =
+    task.subtasks.length > 0 ? progressFromSubtasks(task.subtasks) : 0;
+
   const [updatedTask, updatedUser] = await prisma.$transaction([
     prisma.task.update({
       where: { id: taskId },
-      data: { isCompleted: isCompleting, progress: isCompleting ? 100 : 0 },
+      data: {
+        isCompleted: isCompleting,
+        progress: isCompleting ? 100 : progressOnUncomplete,
+      },
     }),
     prisma.user.update({
       where: { id: user.id },
