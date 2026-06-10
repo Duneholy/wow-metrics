@@ -461,7 +461,14 @@ export function QuestLogSection({
                   {Array.from({ length: WEEKLY_FOCUS_CAPACITY }, (_, slotIndex) => {
                     const task = slotMap.get(slotIndex);
                     if (task) {
-                      const energyWarn = null;
+                      const energyWarn = (() => {
+                        if (task.isCompleted) return false;
+                        const e = dashboard?.user?.energy ?? 100;
+                        if (task.difficulty === "EPIC") return e <= (dashboard?.user?.epicTaskWarningEnergy ?? 60);
+                        if (task.difficulty === "HARD") return e <= (dashboard?.user?.hardTaskWarningEnergy ?? 40);
+                        if (task.difficulty === "MEDIUM") return e <= (dashboard?.user?.mediumTaskWarningEnergy ?? 20);
+                        return false;
+                      })();
                       return (
                         <div
                           key={task.id}
