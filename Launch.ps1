@@ -8,7 +8,7 @@ $bgPath = Join-Path $cwd "loading-bg.png"
 $xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         Title="wow_metrics" WindowStyle="None" AllowsTransparency="True" Background="Transparent"
-        WindowStartupLocation="CenterScreen" Width="340" Height="170" Topmost="True">
+        WindowStartupLocation="CenterScreen" Width="340" Height="170" ShowInTaskbar="True">
     <Border BorderBrush="#3c321d" BorderThickness="2" CornerRadius="10">
         <Border.Background>
             <ImageBrush ImageSource="$bgPath" Stretch="UniformToFill" />
@@ -44,13 +44,18 @@ $window = [System.Windows.Markup.XamlReader]::Load($reader)
 $backendDir = Join-Path $cwd "backend"
 $frontendDir = Join-Path $cwd "frontend"
 
+if (-not (Test-Path $backendDir)) {
+    [System.Windows.MessageBox]::Show("ERROR: backend folder not found!`n`nDid you run this directly from inside the .rar archive?`nYou MUST extract the archive to a folder before running.", "wow_metrics - Error", 0, 16)
+    Exit
+}
+
 # Kill leftover node processes to free ports
 cmd.exe /c "taskkill /F /IM node.exe /T 2>nul"
 Start-Sleep -Seconds 2
 
-# Start servers using absolute paths as working directories
-Start-Process "cmd.exe" -ArgumentList "/c npm run dev" -WindowStyle Hidden -WorkingDirectory $backendDir
-Start-Process "cmd.exe" -ArgumentList "/c npm run dev" -WindowStyle Hidden -WorkingDirectory $frontendDir
+# Start servers using absolute paths as working directories and log output
+Start-Process "cmd.exe" -ArgumentList "/c npm run dev > backend_log.txt 2>&1" -WindowStyle Hidden -WorkingDirectory $backendDir
+Start-Process "cmd.exe" -ArgumentList "/c npm run dev > frontend_log.txt 2>&1" -WindowStyle Hidden -WorkingDirectory $frontendDir
 
 $script:ticks = 0
 
