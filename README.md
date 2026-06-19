@@ -52,18 +52,15 @@ This script will completely hide the terminals and automatically open the applic
 
 ## ✨ Key Features
 
-<p align="center">
-  <img src="docs/1.png" alt="Main page" width="600" />
-</p>
-
 ### 📜 Quest Log
 - **Goals and Quests:** Set global goals and break them down into subtasks of varying difficulty (Easy, Medium, Hard, Epic).
 - **Gamification:** Every completed quest grants **XP** (Experience). Fill your experience bar to gain new Levels.
 - **Weekly Focus:** A convenient sprint planning mechanism — Drag-and-Drop your 7 main quests into the current week's slots.
 
 <p align="center">
-  <img src="docs/2.png" alt="Energy bar" width="600" />
+  <img src="docs/1.png" alt="Main page" width="600" />
 </p>
+<p align="center"><sub>Main page.</sub></p>
 
 ### ⚡ Energy Bar
 - A dynamic system for calculating your personal effectiveness. You lose energy daily (configurable in profile).
@@ -71,13 +68,19 @@ This script will completely hide the terminals and automatically open the applic
 - Features negative and positive modifiers (Bonus & Loss) that affect your overall energy tone.
 
 <p align="center">
-  <img src="docs/3.png" alt="Bank page" width="600" />
+  <img src="docs/2.png" alt="Energy bar" width="600" />
 </p>
+<p align="center"><sub>Energy bar and goals.</sub></p>
 
 ### 💰 Bank and Assets
 - Multi-currency tracking of fiat funds and financial assets.
 - **Exchange Integration:** Automatically fetches current and historical prices for cryptocurrencies (CoinGecko API) and stocks (MOEX).
 - **Inflation Calculation:** Accounts for capital depreciation based on a specified inflation percentage.
+
+<p align="center">
+  <img src="docs/3.png" alt="Bank page" width="600" />
+</p>
+<p align="center"><sub>Bank page.</sub></p>
 
 ### 🍻 Tavern / Contacts (CRM / Networking)
 - A personal contact base for networking.
