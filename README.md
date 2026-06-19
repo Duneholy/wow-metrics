@@ -18,6 +18,8 @@
 
 ---
 
+<img src="docs/header.png" alt="wowmetrics" width="800" />
+
 **wow_metrics** is a powerful Life Management Tool stylized with the popular MMORPG World of Warcraft interface. The application combines task management, financial tracking, energy control, and contact management (CRM) with gamification elements: earn experience, level up, and monitor your "Energy" bar.
 
 ## 🚀 Quick Start
@@ -50,15 +52,27 @@ This script will completely hide the terminals and automatically open the applic
 
 ## ✨ Key Features
 
+<p align="center">
+  <img src="docs/1.png" alt="Main page" width="600" />
+</p>
+
 ### 📜 Quest Log
 - **Goals and Quests:** Set global goals and break them down into subtasks of varying difficulty (Easy, Medium, Hard, Epic).
 - **Gamification:** Every completed quest grants **XP** (Experience). Fill your experience bar to gain new Levels.
 - **Weekly Focus:** A convenient sprint planning mechanism — Drag-and-Drop your 7 main quests into the current week's slots.
 
+<p align="center">
+  <img src="docs/2.png" alt="Energy bar" width="600" />
+</p>
+
 ### ⚡ Energy Bar
 - A dynamic system for calculating your personal effectiveness. You lose energy daily (configurable in profile).
 - Restore energy by completing habits and workouts ("Exercises").
 - Features negative and positive modifiers (Bonus & Loss) that affect your overall energy tone.
+
+<p align="center">
+  <img src="docs/3.png" alt="Bank page" width="600" />
+</p>
 
 ### 💰 Bank and Assets
 - Multi-currency tracking of fiat funds and financial assets.
