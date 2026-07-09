@@ -13,6 +13,13 @@ const apiProxy = {
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: { host: '127.0.0.1', strictPort: true, proxy: { ...apiProxy } },
+  server: { 
+    host: '127.0.0.1', 
+    strictPort: true, 
+    proxy: { ...apiProxy },
+    watch: {
+      ignored: ['**/public/icons/**']
+    }
+  },
   preview: { proxy: { ...apiProxy } },
 })

@@ -288,7 +288,7 @@ export default function App() {
         {activeTab === "bank" && <BankSection dashboard={dashboard} setDashboard={setDashboard} request={request} loadDashboard={loadDashboard} token={token} setError={setError} openConfirmDialog={openConfirmDialog} resolveConfirmDialog={resolveConfirmDialog} />}
 
         <footer style={{ textAlign: "center", padding: "30px 10px 10px", color: "var(--text-muted)", fontSize: "var(--text-xs)", fontFamily: "var(--font-display)" }}>
-          wow_metrics 1.03 &copy; Yury Mikhno, 2026
+          wow_metrics 1.2 &copy; Yury Mikhno, 2026
         </footer>
       </main>
 

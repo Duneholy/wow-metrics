@@ -27,7 +27,7 @@ $xaml = @"
             <Border BorderBrush="#3c321d" BorderThickness="1" CornerRadius="4">
                 <ProgressBar IsIndeterminate="True" Width="260" Height="8" Foreground="#0070dd" Background="#111111" BorderThickness="0" />
             </Border>
-            <TextBlock Text="1.03 © Yury Mikhno" Foreground="#8a9096" FontSize="11" HorizontalAlignment="Center" Margin="0,15,0,0">
+            <TextBlock Text="1.2 © Yury Mikhno" Foreground="#8a9096" FontSize="11" HorizontalAlignment="Center" Margin="0,15,0,0">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="Black" BlurRadius="2" ShadowDepth="1" Opacity="0.8" />
                 </TextBlock.Effect>
